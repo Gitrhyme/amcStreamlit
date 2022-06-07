@@ -36,21 +36,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import gspread
-# import json
-# import toml
-
-# def jsonFile():
-#     with open('.streamlit/secrets.toml') as source:
-#         config = toml.loads(source.read())
-
-#     toml_config = json.dumps(config)
-
-#     with open('.streamlit/secrets.json', 'w') as target:
-#         target.write(toml_config)
-#     return target
 
 def gspreadConnect():
-    # jsonFile()
     sa = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
     sh = sa.open('amcClientSheet')
     wks = sh.worksheet('amcDf')
