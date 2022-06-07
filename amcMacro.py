@@ -38,6 +38,7 @@ import matplotlib.pyplot as plt
 import gspread
 import json
 import toml
+from google.oauth2 import service_account
 
 # def jsonFile():
 #     with open('.streamlit/secrets.toml') as source:
@@ -49,10 +50,15 @@ import toml
 #         target.write(toml_config)
 #     return target
 
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+client = gspread.Client(credentials=credentials)
+
 def gspreadConnect():
     # jsonFile()
-    sa = gspread.service_account(filename= st.secrets["gcp_service_account"])
-    sh = sa.open('amcClientSheet')
+    # sa = gspread.service_account(filename= '.streamlit/secrets.json')
+    sh = client.open('amcClientSheet')
     wks = sh.worksheet('amcDf')
     return wks
 
