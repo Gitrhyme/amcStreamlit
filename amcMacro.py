@@ -50,10 +50,9 @@ from google.oauth2 import service_account
 #         target.write(toml_config)
 #     return target
 
-credentials = service_account.Credentials.from_service_account_info(
+credentials = Credentials.from_service_account_file(
     st.secrets["gcp_service_account"]
 )
-#client = gspread.Client(auth=credentials)
 
 def gspreadConnect():
     # jsonFile()
