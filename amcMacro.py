@@ -41,12 +41,12 @@ import toml
 from google.oauth2.service_account import Credentials
 
 def jsonFile():
-    with open(st.secrets["gcp_service_account"]) as source:
-        config = toml.loads(source.read())
+    # with open(st.secrets["gcp_service_account"]) as source:
+    #     config = toml.loads(source.read())
 
-    toml_config = json.dumps(config)
+    toml_config = json.dumps(st.secrets["gcp_service_account"])
 
-    with open('.streamlit/secrets.json', 'w') as target:
+    with open('secrets.json', 'w') as target:
         target.write(toml_config)
     return target
 
