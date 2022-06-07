@@ -99,6 +99,7 @@ def loadData():
 ###### MAIN PROGRAM START ######
 st.title('AMC MACRO')
 
+st.header("Add Client💪")
 ################ SPREADSHEET FORM #####################################
 form = st.form(key="annotation")
 
@@ -157,7 +158,7 @@ macroCal = macroCalc (gender, weight, height, age, activityRate, weightDiff)
 
 ############ TOTAL CALORIES & GRAM BREAKDOWN ##########
 #print(macroCal)
-st.header(f'Daily Intake: {macroCal} calories')
+st.subheader(f'Daily Intake: {macroCal} calories')
 #print(macroSplit (splitChoice, macroCal))
 proteinMac, carbsMac, fatMac = macroSplit (splitChoice, macroCal)
 st.subheader(f'Protein🍗: {proteinMac} grams')
