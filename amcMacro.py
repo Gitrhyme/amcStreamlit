@@ -40,20 +40,8 @@ import json
 import toml
 from google.oauth2.service_account import Credentials
 
-def jsonFile():
-    # with open(st.secrets["gcp_service_account"]) as source:
-    #     config = toml.loads(source.read())
-
-    toml_config = json.dumps(st.secrets["gcp_service_account"])
-
-    with open('secrets.json', 'w') as target:
-        target.write(toml_config)
-    return target
-
-target = jsonFile()
-
 credentials = Credentials.from_service_account_file(
-    target
+    json.dumps(st.secrets["gcp_service_account"]
 )
 
 def gspreadConnect():
