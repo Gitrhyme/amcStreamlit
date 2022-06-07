@@ -38,7 +38,7 @@ import matplotlib.pyplot as plt
 import gspread
 import json
 import toml
-from google.oauth2 import service_account
+from google.oauth2.service_account import Credentials
 
 # def jsonFile():
 #     with open('.streamlit/secrets.toml') as source:
