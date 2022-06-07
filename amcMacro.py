@@ -40,7 +40,7 @@ import json
 import toml
 from google.oauth2.service_account import Credentials
 
-credentials = Credentials.from_service_account_file(
+credentials = Credentials.service_account_from_dict(
     st.secrets["gcp_service_account"]
 )
 
