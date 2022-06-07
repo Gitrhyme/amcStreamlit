@@ -30,7 +30,7 @@ Ectomorphs - 25% protein / 55% carb / 20% fat
 Mesomorphs - 30% protein / 40% carb / 30% fat 
 Endomorphs - 35% protein / 25% carb / 40% fat
 
-f
+
 '''
 import streamlit as st
 import pandas as pd
@@ -41,7 +41,7 @@ import toml
 from google.oauth2.service_account import Credentials
 
 credentials = Credentials.from_service_account_file(
-    json.dumps(st.secrets["gcp_service_account"]
+    st.secrets["gcp_service_account"]
 )
 
 def gspreadConnect():
