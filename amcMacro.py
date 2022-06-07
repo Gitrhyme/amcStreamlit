@@ -39,18 +39,18 @@ import gspread
 import json
 import toml
 
-def jsonFile():
-    with open('.streamlit/secrets.toml') as source:
-        config = toml.loads(source.read())
+# def jsonFile():
+#     with open('.streamlit/secrets.toml') as source:
+#         config = toml.loads(source.read())
 
-    toml_config = json.dumps(config)
+#     toml_config = json.dumps(config)
 
-    with open('.streamlit/secrets.json', 'w') as target:
-        target.write(toml_config)
-    return target
+#     with open('.streamlit/secrets.json', 'w') as target:
+#         target.write(toml_config)
+#     return target
 
 def gspreadConnect():
-    jsonFile()
+    # jsonFile()
     sa = gspread.service_account(filename= st.secrets["gcp_service_account"])
     sh = sa.open('amcClientSheet')
     wks = sh.worksheet('amcDf')
