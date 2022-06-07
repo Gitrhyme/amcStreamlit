@@ -1,37 +1,3 @@
-'''
-#Mifflin St Jeor Equation
-Men: calories/day = 10 x weight (kg) + 6.25 x height (cm) - 5 x age (y) + 5
-Women: calories/day = 10 x weight (kg) + 6.25 x height (cm) - 5 x age (y) - 161
-
-THEN MULTIPLY BY ONE OF THE FOLLOWING
-
-# Activity Adjuster
-Sedentary: x 1.2 (limited exercise)
-Lightly active: x 1.375 (light exercise less than three days per week)
-Moderately active: x 1.55 (moderate exercise most days of the week)
-Very active: x 1.725 (hard exercise every day)
-Extra active: x 1.9 (strenuous exercise two or more times per day)
-
-# Weight Adjuster
-Mild Weight Loss(half lb): -250
-Weight Loss (1 lb): -500
-Extreme Weight Loss (2lb): -1000
-
-Mild Weight Gain(half lb): 250
-Weight Gain (1 lb): 500
-Extreme Weight Gain (2lb): 1000
-
-# Macro Breakdown
-
-To find Macro of Protein, Carbs, Fat, etc. 
-DesiredMacro% * Calories = Calories for Desired Macro
-
-Ectomorphs - 25% protein / 55% carb / 20% fat  
-Mesomorphs - 30% protein / 40% carb / 30% fat 
-Endomorphs - 35% protein / 25% carb / 40% fat
-
-
-'''
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -191,12 +157,12 @@ macroCal = macroCalc (gender, weight, height, age, activityRate, weightDiff)
 
 ############ TOTAL CALORIES & GRAM BREAKDOWN ##########
 #print(macroCal)
-st.header(f'Daily Calorie Intake: {macroCal} calories')
+st.header(f'Daily Intake: {macroCal} calories')
 #print(macroSplit (splitChoice, macroCal))
 proteinMac, carbsMac, fatMac = macroSplit (splitChoice, macroCal)
-st.subheader(f'Protein: {proteinMac} grams')
-st.subheader(f'Carbs: {carbsMac} grams')
-st.subheader(f'Fat: {fatMac} grams')
+st.subheader(f'Protein🍗: {proteinMac} grams')
+st.subheader(f'Carbs🍞: {carbsMac} grams')
+st.subheader(f'Fat🥑: {fatMac} grams')
 ############ TOTAL CALORIES & GRAM BREAKDOWN ##########
 
 
