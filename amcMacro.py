@@ -51,7 +51,7 @@ def jsonFile():
 
 def gspreadConnect():
     jsonFile()
-    sa = gspread.service_account(filename= '.streamlit/secrets.json')
+    sa = gspread.service_account(filename= st.secrets["gcp_service_account"])
     sh = sa.open('amcClientSheet')
     wks = sh.worksheet('amcDf')
     return wks
