@@ -158,6 +158,8 @@ macroCal = macroCalc (gender, weight, height, age, activityRate, weightDiff)
 
 ############ TOTAL CALORIES & GRAM BREAKDOWN ##########
 #print(macroCal)
+st.text('')
+st.header(f'{chosenClient} Chart Details:')
 st.subheader(f'Daily Intake: {macroCal} calories')
 #print(macroSplit (splitChoice, macroCal))
 proteinMac, carbsMac, fatMac = macroSplit (splitChoice, macroCal)
