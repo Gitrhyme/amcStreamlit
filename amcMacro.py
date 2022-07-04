@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import gspread
 
-################ SPREADSHEET CONNECTION #####################################
+################ USER SPREADSHEET CONNECTION #####################################
 def gspreadConnect():
     sa = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
     sh = sa.open('amcClientSheet')
@@ -14,8 +14,19 @@ def gspreadConnect():
 def appendSpreadSheet(userInfo):
     wks = gspreadConnect()
     wks.append_row(userInfo, table_range="A1:F1")
-################ SPREADSHEET CONNECTION ###############################
 
+################ FOOD SPREADSHEET CONNECTION #####################################
+def gspreadConnect2():
+    sa2 = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
+    sh2 = sa2.open('amcClientSheet')
+    wks2 = sh2.worksheet('foodDf')
+    return wks2
+
+def appendSpreadSheet2(foodInfo):
+    wks2 = gspreadConnect2()
+    wks2.append_row(foodInfo, table_range="A1:G1")
+
+################ NUMBER CONVERSIONS ##############################################
 def heightConvert (ft, inches):
     h_ft = ft
     h_inch = inches
@@ -96,38 +107,18 @@ def loadData():
   df = pd.DataFrame(wks.get_all_records())
   return df
 
-###### MAIN PROGRAM START ######
+def loadData2():
+  wks2 = gspreadConnect2()
+  df2 = pd.DataFrame(wks2.get_all_records())
+  return df2
+
+###### MAIN PROGRAM START #############################################
 st.title('AMC MACRO')
-
-st.header("Add Client💪")
-################ SPREADSHEET FORM #####################################
-form = st.form(key="annotation")
-
-with form:
-    cols = st.columns((1, 1))
-    userName = cols[0].text_input("Name:")
-    userGender = cols[1].selectbox(
-        "Gender:", ["M", "F"], index=0
-    )
-    cols = st.columns(4)
-    userAge = cols[0].slider("Age:", 0, 100)
-    userFt = cols[1].slider("Height(ft):", 0, 12)
-    userInches = cols[2].slider("Height(in):", 0, 11) 
-    userLbs = cols[3].number_input("Weight(lbs):", min_value=0, value=0)
-    userInfo = [userName, userGender, userAge, userFt, userInches, userLbs]
-    submitted = st.form_submit_button(label="Submit")
-
-
-if submitted:
-    appendSpreadSheet(userInfo)
-    st.success("Thanks! Your info was recorded.")
-    st.balloons()
-################ SPREADSHEET FORM ################################
 
 st.sidebar.header('Chart Filter')
 df = loadData()
-
-############### MACRO FORMULA #########################
+df2 = loadData2()
+############### MACRO FORMULA #########################################
 chosenClient = st.sidebar.selectbox('Choose Client', list(df['name']))
 #gender = df['gender']
 gender = df.loc[df['name'] == chosenClient, 'gender'].iloc[0]
@@ -153,20 +144,18 @@ weight = weightConvert (lbs)
 activityRate = activeRate (aLevel)
 weightDiff = weightRate (wLevel)
 macroCal = macroCalc (gender, weight, height, age, activityRate, weightDiff)
-############### MACRO FORMULA #########################
+############### MACRO FORMULA ############################################
 
 
-############ TOTAL CALORIES & GRAM BREAKDOWN ##########
+############ TOTAL CALORIES & GRAM BREAKDOWN #############################
 #print(macroCal)
-st.text('')
-st.header(f'{chosenClient} Chart Details:')
 st.subheader(f'Daily Intake: {macroCal} calories')
 #print(macroSplit (splitChoice, macroCal))
 proteinMac, carbsMac, fatMac = macroSplit (splitChoice, macroCal)
 st.subheader(f'Protein🍗: {proteinMac} grams')
 st.subheader(f'Carbs🍞: {carbsMac} grams')
 st.subheader(f'Fat🥑: {fatMac} grams')
-############ TOTAL CALORIES & GRAM BREAKDOWN ##########
+############ TOTAL CALORIES & GRAM BREAKDOWN #############################
 
 
 ##################### PIE CHART ##########################################
@@ -183,8 +172,54 @@ ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 st.pyplot(fig1)
 ##################### PIE CHART ##########################################
 
+st.header("Add Client💪")
+################ ADD USER FORM #####################################
+form = st.form(key="annotation")
+
+with form:
+    cols = st.columns((1, 1))
+    userName = cols[0].text_input("Name:")
+    userGender = cols[1].selectbox(
+        "Gender:", ["M", "F"], index=0
+    )
+    cols = st.columns(4)
+    userAge = cols[0].slider("Age:", 0, 100)
+    userFt = cols[1].slider("Height(ft):", 0, 12)
+    userInches = cols[2].slider("Height(in):", 0, 11) 
+    userLbs = cols[3].number_input("Weight(lbs):", min_value=0, value=0)
+    userInfo = [userName, userGender, userAge, userFt, userInches, userLbs]
+    submitted = st.form_submit_button(label="Submit")
+
+
+if submitted:
+    appendSpreadSheet(userInfo)
+    st.success("Thanks! Your info was recorded.")
+    st.balloons()
+################ ADD USER FORM ###########################################
+
+st.header("Add Food🥣")
+#################### ADD FOOD FORM #######################################
+form2 = st.form(key="annotation2")
+
+with form2:
+    cols = st.columns(3)
+    foodName = cols[0].text_input("Food Name:",)
+    foodGroup = cols[1].selectbox("Food Group:", ["Fruits", "Veggies", "Grains", "Protein Rich", "Dairy"], index=0)
+    dietType = cols[2].selectbox("Diet Type:", ["Normal", "Vegitarian", "Vegan"], index=0)
+    cols = st.columns(4)
+    foodProtein = cols[0].number_input("Protein:")
+    foodCarbs = cols[1].number_input("Carbs:")
+    foodFats = cols[2].number_input("Fat:") 
+    foodServing = cols[3].text_input("Serving size:")
+    foodInfo = [foodName, foodGroup, dietType, foodProtein, foodCarbs, foodFats, foodServing]
+    submitted2 = st.form_submit_button(label="Submit")
+
+
+if submitted2:
+    appendSpreadSheet2(foodInfo)
+    st.success("Food has been added!")
+#################### ADD FOOD FORM #######################################
 expander = st.expander("See all records")
 with expander:
     st.dataframe(df)
-
-###### MAIN PROGRAM END ######
+###### MAIN PROGRAM END #################################################
