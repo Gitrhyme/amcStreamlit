@@ -109,7 +109,6 @@ def loadData():
   return df
 
 ##FOOD DF##
-@st.cache
 def loadData2(chosen_food_group, chosen_diet_type):
   wks2 = gspreadConnect2()
   df2 = pd.DataFrame(wks2.get_all_records())
