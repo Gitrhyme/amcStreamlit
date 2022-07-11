@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import gspread
+from st_aggrid import AgGrid
 
 ################ USER SPREADSHEET CONNECTION #####################################
 def gspreadConnect():
@@ -107,14 +108,19 @@ def loadData():
   df = pd.DataFrame(wks.get_all_records())
   return df
 
+##FOOD DF##
 def loadData2():
   wks2 = gspreadConnect2()
   df2 = pd.DataFrame(wks2.get_all_records())
-  return df2
+  df3 = df2[df2['food_group'].isin(chosen_food_group)]
+  if chosen_diet_type == "Normal":
+    return df3
+  else:
+    df4 = df3[df3['diet_type'] == chosen_diet_type]
+    return df4
 
 ###### MAIN PROGRAM START #############################################
 st.title('AMC MACRO')
-
 st.sidebar.header('Chart Filter')
 df = loadData()
 df2 = loadData2()
@@ -145,8 +151,9 @@ activityRate = activeRate (aLevel)
 weightDiff = weightRate (wLevel)
 macroCal = macroCalc (gender, weight, height, age, activityRate, weightDiff)
 ############### MACRO FORMULA ############################################
-
-
+st.text("")
+st.header(f"{chosenClient}")
+st.header(f"Current Weight: {lbs} lbs")
 ############ TOTAL CALORIES & GRAM BREAKDOWN #############################
 #print(macroCal)
 st.subheader(f'Daily Intake: {macroCal} calories')
@@ -157,6 +164,9 @@ st.subheader(f'Carbs🍞: {carbsMac} grams')
 st.subheader(f'Fat🥑: {fatMac} grams')
 ############ TOTAL CALORIES & GRAM BREAKDOWN #############################
 
+##FOOD DF SELECT BOXES##
+chosen_food_group = st.sidebar.multiselect('Desired Food Groups', ["Fruits", "Veggies", "Grains", "Protein Rich", "Dairy"])
+chosen_diet_type = st.sidebar.selectbox('Desired Diet Type', ["Normal", "Vegitarian", "Vegan"])
 
 ##################### PIE CHART ##########################################
 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
@@ -172,8 +182,12 @@ ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 st.pyplot(fig1)
 ##################### PIE CHART ##########################################
 
+##FOOD DF VISUAL##
+df2 = loadData2(chosen_food_group, chosen_diet_type)
+AgGrid(df2)
+
 st.header("Add Client💪")
-################ ADD USER FORM #####################################
+################ ADD USER FORM ###########################################
 form = st.form(key="annotation")
 
 with form:
@@ -221,5 +235,5 @@ if submitted2:
 #################### ADD FOOD FORM #######################################
 expander = st.expander("See all records")
 with expander:
-    st.dataframe(df)
+    st.write("View Google Sheet Here: https://docs.google.com/spreadsheets/d/1HHk3o5NeoFL3O6yyKO6a9gdypUrEZnLCJnCNHgmwmqk/edit?usp=sharing")
 ###### MAIN PROGRAM END #################################################
