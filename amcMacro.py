@@ -123,7 +123,6 @@ def loadData2(chosen_food_group, chosen_diet_type):
 st.title('AMC MACRO')
 st.sidebar.header('Chart Filter')
 df = loadData()
-df2 = loadData2()
 ############### MACRO FORMULA #########################################
 chosenClient = st.sidebar.selectbox('Choose Client', list(df['name']))
 #gender = df['gender']
@@ -167,7 +166,7 @@ st.subheader(f'Fat🥑: {fatMac} grams')
 ##FOOD DF SELECT BOXES##
 chosen_food_group = st.sidebar.multiselect('Desired Food Groups', ["Fruits", "Veggies", "Grains", "Protein Rich", "Dairy"])
 chosen_diet_type = st.sidebar.selectbox('Desired Diet Type', ["Normal", "Vegitarian", "Vegan"])
-
+df2 = loadData2(chosen_food_group, chosen_diet_type)
 ##################### PIE CHART ##########################################
 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
 labels = 'Protein', 'Carbs', 'Fat'
