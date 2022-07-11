@@ -173,7 +173,7 @@ labels = 'Protein', 'Carbs', 'Fat'
 sizes = [proteinMac, carbsMac, fatMac]
 explode = (0.1, 0.1, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
 
-fig1, ax1 = plt.subplots()
+fig1, ax1 = plt.subplots(figsize=(10,5))
 ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
         shadow=True, startangle=90)
 ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
