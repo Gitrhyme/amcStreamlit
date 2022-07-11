@@ -109,7 +109,7 @@ def loadData():
   return df
 
 ##FOOD DF##
-def loadData2():
+def loadData2(chosen_food_group, chosen_diet_type):
   wks2 = gspreadConnect2()
   df2 = pd.DataFrame(wks2.get_all_records())
   df3 = df2[df2['food_group'].isin(chosen_food_group)]
